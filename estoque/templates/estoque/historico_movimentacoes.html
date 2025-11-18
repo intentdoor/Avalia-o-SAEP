@@ -1,0 +1,43 @@
+
+{% block title %}Histórico - {{ produto.nome }} - Sistema de Gestão de Estoque{% endblock %}
+
+{% block content %}
+<h2>Histórico de Movimentações: {{ produto.nome }}</h2>
+
+<div style="background: white; padding: 15px; border-radius: 4px; margin-bottom: 20px;">
+    <p><strong>Estoque Atual:</strong> {{ produto.estoque_atual }}</p>
+</div>
+
+{% if movimentacoes %}
+    <table>
+        <thead>
+            <tr>
+                <th>Tipo</th>
+                <th>Quantidade</th>
+                <th>Data</th>
+                <th>Responsável</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mov in movimentacoes %}
+            <tr>
+                <td>
+                    {% if mov.tipo_operacao == 'ENTRADA' %}
+                        <span style="color: #27ae60; font-weight: bold;">↓ ENTRADA</span>
+                    {% else %}
+                        <span style="color: #e74c3c; font-weight: bold;">↑ SAÍDA</span>
+                    {% endif %}
+                </td>
+                <td>{{ mov.quantidade }}</td>
+                <td>{{ mov.data_movimentacao|date:"d/m/Y H:i" }}</td>
+                <td>{{ mov.responsavel.username }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Nenhuma movimentação registrada para este produto.</p>
+{% endif %}
+
+<a href="{% url 'lista_produtos' %}" class="btn">Voltar</a>
+{% endblock %}

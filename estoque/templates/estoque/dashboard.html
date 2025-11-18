@@ -1,0 +1,56 @@
+{% extends "estoque/base.html" %}
+
+{% block title %}Dashboard - Sistema de Gestão de Estoque{% endblock %}
+
+{% block content %}
+<h2>Dashboard</h2>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px;">
+    <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <h3>Total de Produtos</h3>
+        <p style="font-size: 32px; color: #3498db; margin-top: 10px;">{{ total_produtos }}</p>
+    </div>
+    
+    <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <h3>Produtos em Alerta</h3>
+        <p style="font-size: 32px; color: #e74c3c; margin-top: 10px;">{{ quantidade_alertas }}</p>
+    </div>
+</div>
+
+{% if produtos_em_alerta %}
+    <div class="alert alert-warning">
+        <h3>!! Produtos com Estoque Abaixo do Mínimo !!</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Estoque Atual</th>
+                    <th>Estoque Mínimo</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for produto in produtos_em_alerta %}
+                <tr>
+                    <td>{{ produto.nome }}</td>
+                    <td><strong>{{ produto.estoque_atual }}</strong></td>
+                    <td>{{ produto.estoque_min }}</td>
+                    <td>
+                        <a href="{% url 'registrar_movimentacao' produto.id %}" class="btn btn-success">Adicionar Estoque</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <p style="color: #27ae60; font-weight: bold;"> Todos os produtos estão com estoque adequado!!!!</p>
+{% endif %}
+
+<br>
+<br>
+<a href="{% url 'cadastrar_produto' %}" class="btn btn-success">+ Cadastrar Novo Produto</a>
+<br>
+<br>
+<a href="{% url 'lista_produtos' %}" class="btn btn-success">Ir para a lista de Produtos</a>
+{% endblock %}

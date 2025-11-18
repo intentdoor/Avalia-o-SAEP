@@ -1,0 +1,27 @@
+
+{% block title %}Editar {{ produto.nome }} - Sistema de Gestão de Estoque{% endblock %}
+
+{% block content %}
+<h2>Editar Produto: {{ produto.nome }}</h2>
+
+<form method="post" style="max-width: 600px;">
+    {% csrf_token %}
+    
+    {% for field in form %}
+        <div class="form-group">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.errors %}
+                <div style="color: #e74c3c; font-size: 12px; margin-top: 5px;">
+                    {{ field.errors }}
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    <div class="form-actions">
+        <button type="submit" class="btn btn-success">Salvar Alterações</button>
+        <a href="{% url 'lista_produtos' %}" class="btn">Cancelar</a>
+    </div>
+</form>
+{% endblock %}

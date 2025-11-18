@@ -1,0 +1,48 @@
+{% extends "estoque/base.html" %}
+
+{% block content %}
+<h1>Gestão de Estoque</h1>
+
+<h2>Produtos em Alerta (Estoque Mínimo)</h2>
+{% if produtos_em_alerta %}
+    <ul>
+    {% for produto in produtos_em_alerta %}
+        <li style="color: red;">
+            {{ produto.nome }} - Atual: {{ produto.estoque_atual }} 
+            (Mínimo: {{ produto.estoque_min }})
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Nenhum produto abaixo do estoque mínimo.</p>
+{% endif %}
+
+<h2>Lista de Produtos</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Estoque Atual</th>
+            <th>Estoque Mínimo</th>
+            <th>Ação</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for produto in produtos %}
+        <tr>
+            <td>{{ produto.nome }}</td>
+            <td>{{ produto.estoque_atual }}</td>
+            <td>{{ produto.estoque_min }}</td>
+            <td>
+                    <a href="{% url 'registrar_movimentacao' produto.id %}" class="btn">Movimentar</a>
+                    <a href="{% url 'historico_movimentacoes' produto.id %}" class="btn">Histórico</a>
+                    <a href="{% url 'editar_produto' produto.id %}" class="btn">Editar</a>
+                    <a href="{% url 'deletar_produto' produto.id %}" class="btn btn-danger">Deletar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br>
+<a href="{% url 'dashboard' %}" class="btn btn-success"> Voltar para o Dashboard</a>
+{% endblock %}

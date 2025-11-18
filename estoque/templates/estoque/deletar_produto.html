@@ -1,0 +1,20 @@
+
+
+{% block title %}Deletar {{ produto.nome }} - Sistema de Gestão de Estoque{% endblock %}
+
+{% block content %}
+<h2>Deletar Produto</h2>
+
+<div class="alert alert-warning">
+    <p>Você tem certeza que deseja deletar o produto <strong>{{ produto.nome }}</strong>?</p>
+    <p>Esta ação não pode ser desfeita e todas as movimentações associadas serão perdidas.</p>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="form-actions">
+        <button type="submit" class="btn btn-danger">Sim, Deletar</button>
+        <a href="{% url 'lista_produtos' %}" class="btn">Cancelar</a>
+    </div>
+</form>
+{% endblock %}

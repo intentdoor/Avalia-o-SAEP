@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sistema de Gestão de Estoque{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <h1>Sistema de Gestão de Estoque</h1>
+        
+        <div id="user-info">
+            {% if user.is_authenticated %}
+                <span>Usuário: {{ user.username }}</span>
+                <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                   <button type="submit" style="background-color: rgb(243, 175, 175); ; border: 10px; color: rgb(252, 2, 2); cursor: pointer; text-decoration: underline; padding: 8px 12px;">Sair</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <div class="container">
+        {% if messages %}
+            <ul class="messages">
+            {% for message in messages %}
+                <li class="{% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </div>
+    
+    <footer>
+        <p>&copy; 2024 Sistema de Gestão de Estoque.</p>
+    </footer>
+</body>
+</html>
